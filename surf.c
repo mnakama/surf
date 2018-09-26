@@ -1192,8 +1192,8 @@ createview(WebKitWebView *v, WebKitNavigationAction *a, Client *c)
 		 * by user gesture, so inverse the logic here
 		 */
 /* instead of this, compare destination uri to mouse-over uri for validating window */
-		if (webkit_navigation_action_is_user_gesture(a))
-			return NULL;
+		/*if (webkit_navigation_action_is_user_gesture(a))
+			return NULL;*/
 	case WEBKIT_NAVIGATION_TYPE_LINK_CLICKED: /* fallthrough */
 	case WEBKIT_NAVIGATION_TYPE_FORM_SUBMITTED: /* fallthrough */
 	case WEBKIT_NAVIGATION_TYPE_BACK_FORWARD: /* fallthrough */
