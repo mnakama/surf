@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <err.h>
 
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
@@ -1921,6 +1922,47 @@ clickexternplayer(Client *c, const Arg *a, WebKitHitTestResult *h)
 
 	arg = (Arg)VIDEOPLAY(webkit_hit_test_result_get_media_uri(h));
 	spawn(c, &arg);
+}
+
+void
+bookmarkUrl(Client *c, const Arg *a)
+{
+	const char *uri = geturi(c);
+	int uriLen = strlen(uri);
+	char uriStr[uriLen+1];
+
+	const char *filePath = buildfile(bookmarkfile);
+
+	memcpy(uriStr, uri, uriLen);
+	uriStr[uriLen] = '\n';
+
+	printf("bookmarking url: %s\n", uri);
+
+	int bookmarkFile = open(filePath, O_WRONLY|O_APPEND);
+	if (bookmarkFile < 0) {
+		warn("Failed to open %s", filePath);
+		return;
+	}
+
+	int ret = write(bookmarkFile, uriStr, uriLen+1);
+	if (ret < uriLen+1) {
+		warn("Failed to write to bookmarks file");
+	}
+
+	ret = close(bookmarkFile);
+	if (ret < 0) {
+		warn("Failed to close bookmarks file");
+	}
+}
+
+void
+showBookmarks(Client *c, const Arg *a)
+{
+	if (fork() == 0) {
+		const char *filePath = buildfile(bookmarkfile);
+		printf("File: %s\n", filePath);
+		execlp("st", "st", "nvim", filePath);
+	}
 }
 
 int
