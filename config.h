@@ -114,7 +114,8 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 static SiteSpecific styles[] = {
 	/* regexp               file in $styledir */
 	/*{ ".*",                 "default.css" },*/
-	{ ".*github.com.*",     "github-dark.css" },
+	{ ".*github\\.com.*",     "github-dark.css" },
+	{ ".*clubhouse\\.io.*",   "clubhouse-dark.css" },
 };
 
 /* certificates */
